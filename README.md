@@ -34,6 +34,38 @@ Lody::files('app/Workflow/Nodes')
     ->each(fn (SplFileInfo $file) => $this->register($file));
 ```
 
+## Configuration
+
+### Resolving paths
+
+When providing paths to the `Lody::files` or `Lody::classes` methods, Lody will automatically assume these paths are within the root of your application unless they start with a slash in which case they are left untouched.
+
+You may configure this logic by calling the `Lody::resolvePathUsing` method on one of your service providers. The example below provides the default logic.
+
+```php
+Lody::resolvePathUsing(function (string $path) {
+    return Str::startsWith($path, DIRECTORY_SEPARATOR) ? $path : base_path($path);
+});
+```
+
+### Resolving classnames
+
+When using the `Lody::classes` method, Lody will transform your filenames into classnames by following the PSR-4 conventions. That is, it will start with your `App` namespace and chain the rest of the filename with backslashes instead of forward slashes. E.g. `app/Models/User` will become `App\Models\User`.
+
+You may configure this logic by calling the `Lody::resolveClassnameUsing` method on one of your service providers. The example below provides the default logic.
+
+```php
+Lody::resolveClassnameUsing(function (SplFileInfo $file) {
+    $classnameFromAppPath = str_replace(
+        ['/', '.php'],
+        ['\\', ''],
+        Str::after($file->getRealPath(), realpath(app_path()).DIRECTORY_SEPARATOR)
+    );
+
+    return app()->getNamespace() . $classnameFromAppPath;
+});
+```
+
 ## References
 
 ### Lody
@@ -44,11 +76,23 @@ Lody::files('app/Actions');
 Lody::files(['app/Auth/Actions', 'app/Billing/Actions']);
 Lody::files('app/Actions', recursive: false); // Non-recursively.
 Lody::files('app/Actions', hidden: true); // Includes dot files.
-Lody::filesFromFinder(Finder::create()->files()->in('app/Actions')->depth(1)); // With custom finder.
+Lody::filesFromFinder(Finder::create()->files()->in(app_path('Actions'))->depth(1)); // With custom finder.
 
 // All return an instance of ClassnameLazyCollection (see below).
 Lody::classes('app/Actions');
 Lody::classes(['app/Auth/Actions', 'app/Billing/Actions']);
 Lody::classes('app/Actions', recursive: false); // Non-recursively.
-Lody::classesFromFinder(Finder::create()->files()->in('app/Actions')->depth(1)); // With custom finder.
+Lody::classesFromFinder(Finder::create()->files()->in(app_path('Actions'))->depth(1)); // With custom finder.
+
+// Registering custom resolvers.
+Lody::resolvePathUsing(fn(string $path) => ...);
+Lody::resolveClassnameUsing(fn(SplFileInfo $file) => ...);
 ```
+
+### FileLazyCollection
+
+TODO
+
+### ClassnameLazyCollection
+
+TODO
