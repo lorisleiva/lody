@@ -2,6 +2,7 @@
 
 namespace Lorisleiva\Lody;
 
+use Closure;
 use Illuminate\Support\Facades\Facade;
 use Symfony\Component\Finder\Finder;
 
