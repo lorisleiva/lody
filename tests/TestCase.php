@@ -1,6 +1,6 @@
 <?php
 
-namespace Lorisleiva\Skeleton\Tests;
+namespace Lorisleiva\Lody\Tests;
 
 use Lorisleiva\Skeleton\SkeletonServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;

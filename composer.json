@@ -1,11 +1,14 @@
 {
-    "name": "lorisleiva/skeleton",
-    "description": "TODO",
+    "name": "lorisleiva/lody",
+    "description": "Load files and classes as lazy collections in Laravel.",
     "keywords": [
         "laravel",
-        "skeleton"
+        "load",
+        "files",
+        "classes",
+        "collection"
     ],
-    "homepage": "https://github.com/lorisleiva/skeleton",
+    "homepage": "https://github.com/lorisleiva/lody",
     "license": "MIT",
     "authors": [
         {
@@ -16,8 +19,8 @@
         }
     ],
     "require": {
-        "php": "^7.4|^8.0",
-        "illuminate/contracts": "^7.0|^8.0"
+        "php": "^8.0",
+        "illuminate/contracts": "^8.0"
     },
     "require-dev": {
         "orchestra/testbench": "^6.0",
@@ -26,12 +29,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Lorisleiva\\Skeleton\\": "src"
+            "Lorisleiva\\Lody\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Lorisleiva\\Skeleton\\Tests\\": "tests"
+            "Lorisleiva\\Lody\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -44,10 +47,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Lorisleiva\\Skeleton\\SkeletonServiceProvider"
+                "Lorisleiva\\Lody\\LodyServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "Lorisleiva\\Skeleton\\Facades\\Skeleton"
+                "Lody": "Lorisleiva\\Lody\\Lody"
             }
         }
     },

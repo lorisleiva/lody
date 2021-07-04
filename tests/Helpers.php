@@ -1,5 +1,5 @@
 <?php
 
-namespace Tests;
+namespace Lorisleiva\Lody\Tests;
 
 // ...
