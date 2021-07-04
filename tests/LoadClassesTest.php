@@ -87,3 +87,29 @@ it('can filter classes based on used traits', function () {
     $files = Lody::classes(__DIR__ . '/Stubs')->doesNotHaveTrait(DummyTrait::class, recursive: false)->all();
     expect($files)->not()->toContain(DummyClass::class);
 });
+
+it('can filter classes based on their methods', function () {
+    // Has method.
+    $files = Lody::classes(__DIR__ . '/Stubs')->hasMethod('dummyMethod')->all();
+    expect($files)->toBe([DummyClass::class]);
+    $files = Lody::classes(__DIR__ . '/Stubs')->hasMethod('dummyStaticMethod')->all();
+    expect($files)->toBe([DummyClass::class]);
+
+    // Does not have method.
+    $files = Lody::classes(__DIR__ . '/Stubs')->doesNotHaveMethod('dummyMethod')->all();
+    expect($files)->not()->toContain(DummyClass::class);
+    $files = Lody::classes(__DIR__ . '/Stubs')->doesNotHaveMethod('dummyStaticMethod')->all();
+    expect($files)->not()->toContain(DummyClass::class);
+
+    // Has static method.
+    $files = Lody::classes(__DIR__ . '/Stubs')->hasStaticMethod('dummyStaticMethod')->all();
+    expect($files)->toBe([DummyClass::class]);
+    $files = Lody::classes(__DIR__ . '/Stubs')->hasStaticMethod('dummyMethod')->all();
+    expect($files)->not()->toContain(DummyClass::class);
+
+    // Has non-static method.
+    $files = Lody::classes(__DIR__ . '/Stubs')->hasNonStaticMethod('dummyMethod')->all();
+    expect($files)->toBe([DummyClass::class]);
+    $files = Lody::classes(__DIR__ . '/Stubs')->hasNonStaticMethod('dummyStaticMethod')->all();
+    expect($files)->not()->toContain(DummyClass::class);
+});
