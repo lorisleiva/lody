@@ -32,13 +32,14 @@ it('can load hidden files as well', function () {
     expectFilenames($files)->toContain('.DummyDotFile');
 });
 
-it('can load non-recursively as well', function () {
+it('can load files non-recursively as well', function () {
     // When we load all files in the "Stubs" directory
     // with the recursive option deactivated.
     $files = Lody::files(__DIR__ . '/Stubs', recursive: false);
 
-    // Then we also get dot files.
+    // Then we do not get the nested files.
     expectFilenames($files)->not()->toContain('NestedDummyClass.php');
+    expectFilenames($files)->not()->toContain('SecondNestedDummyClass.php');
 });
 
 it('can load files using a Finder instance', function () {

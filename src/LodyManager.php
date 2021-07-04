@@ -13,9 +13,9 @@ class LodyManager
     protected ?Closure $pathResolver = null;
     protected ?Closure $classnameResolver = null;
 
-    public function classes(array | string $paths, bool $recursive = true, bool $hidden = false): ClassnameLazyCollection
+    public function classes(array | string $paths, bool $recursive = true): ClassnameLazyCollection
     {
-        return $this->files($paths, $recursive, $hidden)
+        return $this->files($paths, $recursive)
             ->getClassnames()
             ->classExists();
     }

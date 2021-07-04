@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Facade;
 use Symfony\Component\Finder\Finder;
 
 /**
- * @method static ClassnameLazyCollection classes(array|string $paths, bool $recursive = true, bool $hidden = false)
+ * @method static ClassnameLazyCollection classes(array|string $paths, bool $recursive = true)
  * @method static ClassnameLazyCollection classesFromFinder(Finder $finder)
  * @method static FileLazyCollection files(array|string $paths, bool $recursive = true, bool $hidden = false)
  * @method static FileLazyCollection filesFromFinder(Finder $finder)
