@@ -13,7 +13,7 @@ class LodyManager
     protected ?Closure $pathResolver = null;
     protected ?Closure $classnameResolver = null;
 
-    public function classes(array|string $paths, bool $recursive = true, bool $hidden = false): ClassnameLazyCollection
+    public function classes(array | string $paths, bool $recursive = true, bool $hidden = false): ClassnameLazyCollection
     {
         return $this->files($paths, $recursive, $hidden)
             ->getClassnames()
@@ -27,7 +27,7 @@ class LodyManager
             ->classExists();
     }
 
-    public function files(array|string $paths, bool $recursive = true, bool $hidden = false): FileLazyCollection
+    public function files(array | string $paths, bool $recursive = true, bool $hidden = false): FileLazyCollection
     {
         $finder = Finder::create()
             ->in($this->resolvePaths($paths))
@@ -88,12 +88,12 @@ class LodyManager
         return app()->getNamespace() . $classnameFromAppPath;
     }
 
-    protected function resolvePaths(array|string $paths): array
+    protected function resolvePaths(array | string $paths): array
     {
         return Collection::wrap($paths)
-            ->map(fn(string $path) => $this->resolvePath($path))
+            ->map(fn (string $path) => $this->resolvePath($path))
             ->unique()
-            ->filter(fn(string $path) => is_dir($path))
+            ->filter(fn (string $path) => is_dir($path))
             ->values()
             ->toArray();
     }

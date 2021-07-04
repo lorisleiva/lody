@@ -10,7 +10,7 @@ class FileLazyCollection extends LazyCollection
     public function getClassnames(): ClassnameLazyCollection
     {
         $source = $this->map(
-            fn(SplFileInfo $file) => Lody::resolveClassname($file)
+            fn (SplFileInfo $file) => Lody::resolveClassname($file)
         );
 
         return ClassnameLazyCollection::make($source);
