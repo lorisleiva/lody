@@ -32,6 +32,7 @@ class LodyManager
         $finder = Finder::create()
             ->in($this->resolvePaths($paths))
             ->ignoreDotFiles(! $hidden)
+            ->sortByName()
             ->files();
 
         if (! $recursive) {

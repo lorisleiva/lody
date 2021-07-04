@@ -16,9 +16,10 @@ it('loads all files from a given path', function () {
         'DummyAbstractClass.php',
         'DummyClass.php',
         'DummyFile.php',
-        'NestedDummyClass.php',
-        'DummyTrait.php',
         'DummyInterface.php',
+        'DummyTrait.php',
+        'NestedDummyClass.php',
+        'SecondNestedDummyClass.php',
     ]);
 });
 
@@ -43,6 +44,7 @@ it('can load non-recursively as well', function () {
 it('can load files using a Finder instance', function () {
     // Given a Finder instance configured as we wish.
     $finder = Finder::create()
+        ->sortByName()
         ->in(__DIR__ . '/Stubs')
         ->files()
         ->depth(1)
@@ -53,23 +55,35 @@ it('can load files using a Finder instance', function () {
 
     // Then we get a lazy collection with the expected result.
     expect($files)->toBeInstanceOf(FileLazyCollection::class);
-    expectFilenames($files)->toBe(['NestedDummyClass.php']);
+    expectFilenames($files)->toBe([
+        'NestedDummyClass.php',
+        'SecondNestedDummyClass.php',
+    ]);
 });
 
 it('can load files in multiple paths', function () {
-    // Given
-    // When
-    // Then
+    // When we load files in multiple paths.
+    $files = Lody::files([
+        __DIR__ . '/Stubs/NestedStubs',
+        __DIR__ . '/Stubs/SecondNestedStubs',
+    ]);
+
+    // Then we can files within each of these paths.
+    expectFilenames($files)->toBe([
+        'NestedDummyClass.php',
+        'SecondNestedDummyClass.php',
+    ]);
 });
 
-it('uses the app namespace to resolve paths by default', function () {
-    // Given
-    // When
-    // Then
-});
+it('returns the same file only once', function () {
+    // When we load the same folder more than once.
+    $files = Lody::files([
+        __DIR__ . '/Stubs/NestedStubs',
+        __DIR__ . '/Stubs/NestedStubs',
+    ]);
 
-it('uses a custom path resolver when provided', function () {
-    // Given
-    // When
-    // Then
+    // Then its content only appears once.
+    expectFilenames($files)->toBe([
+        'NestedDummyClass.php',
+    ]);
 });
