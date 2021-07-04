@@ -44,7 +44,7 @@ class ClassnameLazyCollection extends LazyCollection
         return $this->filter(function (string $classname) use ($trait, $recursive, $expected) {
             $usedTraits = $recursive ? class_uses_recursive($classname) : class_uses($classname);
 
-            return in_array($trait, $usedTraits);
+            return in_array($trait, $usedTraits) === $expected;
         })->values();
     }
 
