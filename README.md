@@ -91,8 +91,38 @@ Lody::resolveClassnameUsing(fn(SplFileInfo $file) => ...);
 
 ### FileLazyCollection
 
-TODO
+```php
+// Transforms files into classnames and returns a `ClassnameLazyCollection`.
+// Note that these can still be invalid classes. See `classExists` below.
+Lody::files('...')->getClassnames();
+```
 
 ### ClassnameLazyCollection
 
-TODO
+```php
+// The `classExists` rejects all classnames that do not reference a valid PHP class.
+Lody::files('...')->getClassnames()->classExists();
+
+// Note that this is equivalent to the line above.
+Lody::classes('...');
+
+// Filter abstract classes.
+Lody::classes('...')->isAbstract();
+Lody::classes('...')->isNotAbstract();
+
+// Filter classes based on inheritance.
+Lody::classes('...')->isInstanceOf(SomeClassOrInterface::class);
+Lody::classes('...')->isNotInstanceOf(SomeClassOrInterface::class);
+
+// Filter classes based on traits.
+Lody::classes('...')->hasTrait(SomeTrait::class);
+Lody::classes('...')->hasTrait(SomeTrait::class, recursive: false); // Don't include recursive traits.
+Lody::classes('...')->doesNotHaveTrait(SomeTrait::class);
+Lody::classes('...')->doesNotHaveTrait(SomeTrait::class, recursive: false); // Don't include recursive traits.
+
+// Filter classes based on method it contains or not.
+Lody::classes('...')->hasMethod('someMethod');
+Lody::classes('...')->hasStaticMethod('someMethod'); // Ensures the method is static.
+Lody::classes('...')->hasNonStaticMethod('someMethod'); // Ensures the method is non-static.
+Lody::classes('...')->doesNotHaveMethod('someMethod');
+```
