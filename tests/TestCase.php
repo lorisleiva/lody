@@ -2,19 +2,19 @@
 
 namespace Lorisleiva\Lody\Tests;
 
-use Lorisleiva\Skeleton\SkeletonServiceProvider;
+use Lorisleiva\Lody\LodyServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
-            SkeletonServiceProvider::class,
+            LodyServiceProvider::class,
         ];
     }
 
-    public function getEnvironmentSetUp($app)
+    public function getEnvironmentSetUp($app): void
     {
         //
     }
