@@ -69,7 +69,7 @@ it('can load files in multiple paths', function () {
         __DIR__ . '/Stubs/SecondNestedStubs',
     ]);
 
-    // Then we can files within each of these paths.
+    // Then we can see files within each of these paths.
     expectFilenames($files)->toBe([
         'NestedDummyClass.php',
         'SecondNestedDummyClass.php',

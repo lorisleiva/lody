@@ -13,6 +13,8 @@ use Symfony\Component\Finder\Finder;
  * @method static FileLazyCollection filesFromFinder(Finder $finder)
  * @method static LodyManager resolvePathUsing(Closure $callback)
  * @method static LodyManager resolveClassnameUsing(Closure $callback)
+ * @method static LodyManager setBasePath(string $basePath)
+ * @method static LodyManager setAutoloadPath(string $autoloadPath)
  *
  * @see LodyManager
  */

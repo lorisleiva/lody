@@ -12,6 +12,8 @@ class LodyManager
 {
     protected ?Closure $pathResolver = null;
     protected ?Closure $classnameResolver = null;
+    protected ?string $basePath = null;
+    protected ?string $autoloadPath = null;
 
     public function classes(array | string $paths, bool $recursive = true): ClassnameLazyCollection
     {
@@ -64,7 +66,7 @@ class LodyManager
             return $resolver($path);
         }
 
-        return Str::startsWith($path, DIRECTORY_SEPARATOR) ? $path : base_path($path);
+        return Str::startsWith($path, DIRECTORY_SEPARATOR) ? $path : $this->getBasePath($path);
     }
 
     public function resolveClassnameUsing(Closure $callback): static
@@ -80,13 +82,37 @@ class LodyManager
             return $resolver($file);
         }
 
-        $classnameFromAppPath = str_replace(
-            ['/', '.php'],
-            ['\\', ''],
-            Str::after($file->getRealPath(), realpath(app_path()).DIRECTORY_SEPARATOR)
-        );
+        /** @var Psr4Resolver $psr4Resolver */
+        $psr4Resolver = app(Psr4Resolver::class);
 
-        return app()->getNamespace() . $classnameFromAppPath;
+        return $psr4Resolver->resolve($file->getRealPath());
+    }
+
+    public function setBasePath(string $basePath): static
+    {
+        $this->basePath = $basePath;
+
+        return $this;
+    }
+
+    public function getBasePath(string $path = ''): string
+    {
+        $basePath = $this->basePath ?? base_path();
+
+        return $basePath.($path ? DIRECTORY_SEPARATOR.$path : $path);
+    }
+
+    public function setAutoloadPath(string $autoloadPath): static
+    {
+        $this->autoloadPath = $autoloadPath;
+
+        return $this;
+    }
+
+    public function getAutoloadPath(): string
+    {
+        return $this->autoloadPath
+            ?? $this->getBasePath('vendor/composer/autoload_psr4.php');
     }
 
     protected function resolvePaths(array | string $paths): array
