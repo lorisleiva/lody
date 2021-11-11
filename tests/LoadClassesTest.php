@@ -2,7 +2,6 @@
 
 namespace Lorisleiva\Lody\Tests;
 
-use Illuminate\Support\Str;
 use Lorisleiva\Lody\Lody;
 use Lorisleiva\Lody\Tests\Stubs\DummyAbstractClass;
 use Lorisleiva\Lody\Tests\Stubs\DummyClass;
@@ -10,7 +9,6 @@ use Lorisleiva\Lody\Tests\Stubs\DummyInterface;
 use Lorisleiva\Lody\Tests\Stubs\DummyTrait;
 use Lorisleiva\Lody\Tests\Stubs\NestedStubs\NestedDummyClass;
 use Lorisleiva\Lody\Tests\Stubs\SecondNestedStubs\SecondNestedDummyClass;
-use SplFileInfo;
 
 beforeEach(function () {
     Lody::setBasePath(__DIR__ . '/..');
