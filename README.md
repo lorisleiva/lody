@@ -50,9 +50,17 @@ Lody::resolvePathUsing(function (string $path) {
 
 ### Resolving classnames
 
-When using the `Lody::classes` method, Lody will transform your filenames into classnames by following the PSR-4 conventions. That is, it will start with your `App` namespace and chain the rest of the filename with backslashes instead of forward slashes. E.g. `app/Models/User` will become `App\Models\User`.
+When using the `Lody::classes` method, Lody will transform your filenames into classnames **by following PSR-4 conventions**. For example, if your filename is `app/Models/User.php` and you have mapped the `App` namespace to the `app` directory in your `composer.json` file, the it will be resolved to `App\Models\User`.
 
-You may configure this logic by calling the `Lody::resolveClassnameUsing` method on one of your service providers. The example below provides the default logic.
+By default, the classname resolution takes into account every single PSR-4 mapping as defined in your `vendor/composer/autoload_psr4.php` file. This means, it will even resolves classes that live in your vendor directory properly.
+
+If your PSR-4 autoload file is located elsewhere, you may configure it by calling the `Lody::setAutoloadPath` method on one of your service providers.
+
+```php
+Lody::setAutoloadPath('my/custom/autoload_psr4.php');
+```
+
+Alternatively, you may override this logic entirely by calling the `Lody::resolveClassnameUsing` method. The example below provides a useful example for Laravel applications.
 
 ```php
 Lody::resolveClassnameUsing(function (SplFileInfo $file) {
@@ -64,6 +72,17 @@ Lody::resolveClassnameUsing(function (SplFileInfo $file) {
 
     return app()->getNamespace() . $classnameFromAppPath;
 });
+```
+
+### Using Lody without Laravel
+
+Lody works out of the box with Laravel because we can use the `base_path` method to access the root of your project.
+
+However, if you wish to use Lody without Laravel, you may simply provide the base path of your application explicitely using the `Lody::setBasePath` method.
+
+```php
+// Assuming this is executed at the root of your project.
+Lody::setBasePath(__DIR__);
 ```
 
 ## References
