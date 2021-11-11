@@ -29,9 +29,15 @@ class Psr4Resolver
 
     public function findPrefixes(string $filename): array
     {
-        foreach ($this->getPsr4Dictionary() as $path => $classPrefix) {
-            if (Str::startsWith($filename, $path)) {
-                return [realpath($path).DIRECTORY_SEPARATOR, $classPrefix];
+        $directory = $this->getPsr4Dictionary();
+        $fragments = array_reverse(explode(DIRECTORY_SEPARATOR, $filename));
+        $accumulator = $filename;
+
+        foreach ($fragments as $fragment) {
+            $accumulator = Str::beforeLast($accumulator, DIRECTORY_SEPARATOR.$fragment);
+
+            if ($classPrefix = ($directory[$accumulator] ?? false)) {
+                return [realpath($accumulator).DIRECTORY_SEPARATOR, $classPrefix];
             }
         }
 
