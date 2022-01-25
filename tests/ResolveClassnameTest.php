@@ -39,7 +39,7 @@ it('uses a custom classname resolver when provided', function () {
         return Str::of($file->getRealPath())
             ->after(realpath(__DIR__).DIRECTORY_SEPARATOR)
             ->beforeLast('.php')
-            ->explode('/')
+            ->explode(DIRECTORY_SEPARATOR)
             ->reverse()
             ->join('\\');
     });

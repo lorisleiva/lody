@@ -70,7 +70,16 @@ class Psr4Resolver
     public function add(string $classPrefix, string | array $paths): void
     {
         foreach (Arr::wrap($paths) as $path) {
-            $this->psr4Dictionary[$path] = $classPrefix;
+            $this->psr4Dictionary[$this->unifyDirectorySeparator($path)] = $classPrefix;
         }
+    }
+
+    protected function unifyDirectorySeparator(string $path): string
+    {
+        if (DIRECTORY_SEPARATOR !== '\\') {
+            return $path;
+        }
+
+        return str_replace('/', '\\', $path);
     }
 }
