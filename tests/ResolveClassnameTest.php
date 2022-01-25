@@ -37,15 +37,10 @@ it('uses a custom classname resolver when provided', function () {
     // that reverses slashes and all segment of a path.
     Lody::resolveClassnameUsing(function (SplFileInfo $file) {
         return Str::of($file->getRealPath())
-            ->dump()
             ->after(realpath(__DIR__).DIRECTORY_SEPARATOR)
-            ->dump()
             ->beforeLast('.php')
-            ->dump()
             ->explode(DIRECTORY_SEPARATOR)
-            ->dump()
             ->reverse()
-            ->dump()
             ->join('\\');
     });
 
