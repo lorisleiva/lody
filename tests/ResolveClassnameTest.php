@@ -42,7 +42,7 @@ it('uses a custom classname resolver when provided', function () {
             ->dump()
             ->beforeLast('.php')
             ->dump()
-            ->explode('/')
+            ->explode(DIRECTORY_SEPARATOR)
             ->dump()
             ->reverse()
             ->dump()
