@@ -66,7 +66,7 @@ class LodyManager
             return $resolver($path);
         }
 
-        $startsWithDirectorySeparator = Str::startsWith($path, DIRECTORY_SEPARATOR);
+        $startsWithDirectorySeparator = Str::startsWith($path, ['/', '\\']);
         $startsWithWindowsDisk = (bool) preg_match('~\A[A-Z]:(?![^/\\\\])~i', $path);
 
         if ($startsWithDirectorySeparator || $startsWithWindowsDisk) {
