@@ -33,11 +33,12 @@ class Psr4Resolver
     {
         $directory = $this->getPsr4Dictionary();
         $fragments = array_reverse(explode(DIRECTORY_SEPARATOR, $filename));
-        dump($fragments);
+        dump($directory, $fragments);
         $accumulator = $filename;
 
         foreach ($fragments as $fragment) {
             $accumulator = Str::beforeLast($accumulator, DIRECTORY_SEPARATOR.$fragment);
+            dump($accumulator, $directory[$accumulator] ?? false);
 
             if ($classPrefix = ($directory[$accumulator] ?? false)) {
                 return [realpath($accumulator).DIRECTORY_SEPARATOR, $classPrefix];
