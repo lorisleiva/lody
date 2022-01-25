@@ -10,13 +10,13 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         php: ["8.0", "8.1"]
-        laravel: ["^8.0", "^9.0"]
+        laravel: ["^8.0", "^9.0-dev"]
         dependency-version: [prefer-lowest, prefer-stable]
         include:
           - laravel: "^8.0"
             testbench: "^6.23"
-          - laravel: "^9.0"
-            testbench: "^7.0"
+          - laravel: "^9.0-dev"
+            testbench: "^7.0-dev"
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
 
@@ -38,8 +38,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update --ignore-platform-reqs
-          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --ignore-platform-reqs
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
 
       - name: Execute tests
         run: vendor/bin/pest
