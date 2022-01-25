@@ -37,7 +37,11 @@ class Psr4Resolver
         $accumulator = $filename;
 
         foreach ($fragments as $fragment) {
-            $accumulator = Str::beforeLast($accumulator, DIRECTORY_SEPARATOR.$fragment);
+            if (Str::endsWith($accumulator, "\\{$fragment}")) {
+                $accumulator = Str::beforeLast($accumulator, "\\{$fragment}");
+            } else {
+                $accumulator = Str::beforeLast($accumulator, "/{$fragment}");
+            }
             dump($accumulator, $directory[$accumulator] ?? false);
 
             if ($classPrefix = ($directory[$accumulator] ?? false)) {
