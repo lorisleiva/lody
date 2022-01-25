@@ -84,6 +84,6 @@ class Psr4Resolver
             return $path;
         }
 
-        return str_replace($path, '/', '\\');
+        return str_replace('/', '\\', $path);
     }
 }
