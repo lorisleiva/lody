@@ -37,11 +37,7 @@ class Psr4Resolver
         $accumulator = $filename;
 
         foreach ($fragments as $fragment) {
-            if (Str::endsWith($accumulator, "\\{$fragment}")) {
-                $accumulator = Str::beforeLast($accumulator, "\\{$fragment}");
-            } else {
-                $accumulator = Str::beforeLast($accumulator, "/{$fragment}");
-            }
+            $accumulator = Str::beforeLast($accumulator, DIRECTORY_SEPARATOR.$fragment);
             dump($accumulator, $directory[$accumulator] ?? false);
 
             if ($classPrefix = ($directory[$accumulator] ?? false)) {
@@ -78,7 +74,16 @@ class Psr4Resolver
     public function add(string $classPrefix, string | array $paths): void
     {
         foreach (Arr::wrap($paths) as $path) {
-            $this->psr4Dictionary[$path] = $classPrefix;
+            $this->psr4Dictionary[$this->unifyDirectorySeparator($path)] = $classPrefix;
         }
+    }
+
+    protected function unifyDirectorySeparator(string $path): string
+    {
+        if (DIRECTORY_SEPARATOR !== '\\') {
+            return $path;
+        }
+
+        return str_replace($path, '/', '\\');
     }
 }
