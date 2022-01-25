@@ -19,6 +19,7 @@ class Psr4Resolver
     public function resolve(string $filename): string
     {
         [$pathPrefix, $classPrefix] = $this->findPrefixes($filename);
+        dump($filename, $pathPrefix, $classPrefix);
 
         return Str::of($filename)
             ->after($pathPrefix)
