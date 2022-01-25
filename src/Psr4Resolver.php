@@ -18,9 +18,7 @@ class Psr4Resolver
 
     public function resolve(string $filename): string
     {
-        dump('>> ' . $filename);
         [$pathPrefix, $classPrefix] = $this->findPrefixes($filename);
-        dump($pathPrefix, $classPrefix);
 
         return Str::of($filename)
             ->after($pathPrefix)
@@ -33,12 +31,10 @@ class Psr4Resolver
     {
         $directory = $this->getPsr4Dictionary();
         $fragments = array_reverse(explode(DIRECTORY_SEPARATOR, $filename));
-        dump($directory, $fragments);
         $accumulator = $filename;
 
         foreach ($fragments as $fragment) {
             $accumulator = Str::beforeLast($accumulator, DIRECTORY_SEPARATOR.$fragment);
-            dump($accumulator, $directory[$accumulator] ?? false);
 
             if ($classPrefix = ($directory[$accumulator] ?? false)) {
                 return [realpath($accumulator).DIRECTORY_SEPARATOR, $classPrefix];
