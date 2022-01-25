@@ -10,10 +10,10 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         php: ["8.0", "8.1"]
-        laravel: ["^8.15", "^9.x-dev"]
+        laravel: ["^8.67", "^9.x-dev"]
         dependency-version: [prefer-lowest, prefer-stable]
         include:
-          - laravel: "^8.15"
+          - laravel: "^8.67"
             testbench: "^6.23"
           - laravel: "^9.x-dev"
             testbench: "^7.x-dev"
