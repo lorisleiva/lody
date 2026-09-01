@@ -31,8 +31,14 @@ class LodyManager
 
     public function files(array | string $paths, bool $recursive = true, bool $hidden = false): FileLazyCollection
     {
+        $resolvedPaths = $this->resolvePaths($paths);
+
+        if ($resolvedPaths === []) {
+            return FileLazyCollection::make([]);
+        }
+
         $finder = Finder::create()
-            ->in($this->resolvePaths($paths))
+            ->in($resolvedPaths)
             ->ignoreDotFiles(! $hidden)
             ->sortByName()
             ->files();
