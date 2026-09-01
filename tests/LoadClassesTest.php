@@ -105,3 +105,11 @@ it('can filter classes based on their methods', function () {
     $files = Lody::classes('tests/Stubs')->hasNonStaticMethod('dummyStaticMethod')->all();
     expect($files)->not()->toContain(DummyClass::class);
 });
+
+it('returns an empty collection of classnames when the given path does not exist', function () {
+    // When we load classes from a directory that does not exist.
+    $classes = Lody::classes('tests/MissingStubs');
+
+    // Then we get an empty collection instead of an exception.
+    expect($classes->all())->toBe([]);
+});

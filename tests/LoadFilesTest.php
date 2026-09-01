@@ -88,3 +88,36 @@ it('returns the same file only once', function () {
         'NestedDummyClass.php',
     ]);
 });
+
+it('returns an empty collection when the given path does not exist', function () {
+    // When we load files from a directory that does not exist.
+    $files = Lody::files(__DIR__ . '/MissingStubs');
+
+    // Then we get an empty collection instead of an exception.
+    expect($files)->toBeInstanceOf(FileLazyCollection::class);
+    expectFilenames($files)->toBe([]);
+});
+
+it('returns an empty collection when none of the given paths exist', function () {
+    // When we load files from multiple directories that do not exist.
+    $files = Lody::files([
+        __DIR__ . '/MissingStubs',
+        __DIR__ . '/OtherMissingStubs',
+    ]);
+
+    // Then we get an empty collection instead of an exception.
+    expectFilenames($files)->toBe([]);
+});
+
+it('ignores the paths that do not exist', function () {
+    // When we load files from a mix of existing and missing directories.
+    $files = Lody::files([
+        __DIR__ . '/MissingStubs',
+        __DIR__ . '/Stubs/NestedStubs',
+    ]);
+
+    // Then we only get the files of the directories that exist.
+    expectFilenames($files)->toBe([
+        'NestedDummyClass.php',
+    ]);
+});
